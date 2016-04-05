@@ -1,3 +1,5 @@
+/* These are intentionally defined ambiguously, so that they can either be
+ window scope or part of a wrapped bundle with top level access */
 var DefineClass;
 var DefineModule;
 
