@@ -3,6 +3,20 @@
 var DefineClass;
 var DefineModule;
 
+/* new class style for v2:
+
+// note: no base class, mixin only based code sharing
+DefineClass([mixin_one, mixin_two, ...], {
+  constructor: function () {},
+
+  ... other functions
+});
+
+implicit function :
+  trigger: function (event, ...arguments);
+    - used to trigger events on objects, masks how the event is implemented and where, and calls it on the right context
+ */
+
 (function () {
   var moduleDefinitions = {};
   var evaluatedModules = {};
