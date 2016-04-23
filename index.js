@@ -16,6 +16,14 @@ implicit function :
     - used to trigger events on objects, masks how the event is implemented and where, and calls it on the right context
  */
 
+//--- CLASSES ---//
+(function () {
+  SM.DefineClass = function (mixins) {
+
+  };
+}());
+
+//--- MODULES ---//
 (function () {
   var moduleDefinitions = {};
   var evaluatedModules = {};
