@@ -20,13 +20,18 @@ implicit function :
 
 //--- CLASSES ---//
 (function () {
+  function BaseClass() {}
+
   SM.event = function (fn) {
     fn.isSMEvent = true;
     return fn;
   };
 
   SM.DefineClass = function (mixins) {
+    function Constructor() {}
+    Constructor.prototype = new BaseClass();
 
+    return Constructor
   };
 }());
 
