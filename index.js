@@ -8,7 +8,9 @@ DefineClass([mixin_one, mixin_two, ..., {
 
   normalFunction: function () {},
 
-  chainableEvent: function () {}.smEvent()
+  chainableEvent: SM.event(function () {
+
+  })
 }]);
 
 implicit function :
@@ -18,6 +20,11 @@ implicit function :
 
 //--- CLASSES ---//
 (function () {
+  SM.event = function (fn) {
+    fn.isSMEvent = true;
+    return fn;
+  };
+
   SM.DefineClass = function (mixins) {
 
   };
