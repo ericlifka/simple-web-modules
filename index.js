@@ -31,6 +31,18 @@ implicit function :
     function Constructor() {}
     Constructor.prototype = new BaseClass();
 
+    mixins.forEach(function (mixin) {
+      Object.keys(mixin).forEach(function (name) {
+        var fn = mixin[ name ];
+
+        if (fn.isSMEvent) {
+
+        } else {
+          Constructor.prototype[ name ] = fn;
+        }
+      });
+    });
+
     return Constructor
   };
 }());
