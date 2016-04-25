@@ -22,6 +22,10 @@ implicit function :
 (function () {
   function BaseClass() {}
 
+  function eventWrapper() {
+    return [];
+  }
+
   SM.event = function (fn) {
     fn.isSMEvent = true;
     return fn;
@@ -36,7 +40,10 @@ implicit function :
         var fn = mixin[ name ];
 
         if (fn.isSMEvent) {
-
+          if (!Constructor.prototype[ name ]) {
+            Constructor.prototype[ name ] = eventWrapper();
+          }
+          Constructor.prototype[ name ].push(fn);
         } else {
           Constructor.prototype[ name ] = fn;
         }
