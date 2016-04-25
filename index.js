@@ -34,18 +34,19 @@ implicit function :
   SM.DefineClass = function (mixins) {
     function Constructor() {}
     Constructor.prototype = new BaseClass();
+    var proto = Constructor.prototype;
 
     mixins.forEach(function (mixin) {
       Object.keys(mixin).forEach(function (name) {
         var fn = mixin[ name ];
 
         if (fn.isSMEvent) {
-          if (!Constructor.prototype[ name ]) {
-            Constructor.prototype[ name ] = eventWrapper();
+          if (!proto[ name ]) {
+            proto[ name ] = eventWrapper();
           }
-          Constructor.prototype[ name ].push(fn);
+          proto[ name ].push(fn);
         } else {
-          Constructor.prototype[ name ] = fn;
+          proto[ name ] = fn;
         }
       });
     });
