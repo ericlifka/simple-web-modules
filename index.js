@@ -107,8 +107,14 @@ implicit function :
     moduleDefinitions[ moduleName ] = moduleDefinition;
   };
 
-  window.addEventListener('load', function () {
+  function runMain() {
     require('main');
-  });
+  }
+
+  if (document.readyState !== 'loading') {
+    window.setTimeout(runMain, 0);
+  } else {
+    document.addEventListener('DOMContentLoaded', runMain)
+  }
 
 }());
