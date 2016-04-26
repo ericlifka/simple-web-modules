@@ -23,7 +23,10 @@ implicit function :
   function BaseClass() {}
 
   function eventWrapper() {
-    return [];
+    var wrapper = [];
+    wrapper.isSMEventWrapper = true;
+
+    return wrapper;
   }
 
   SM.event = function (fn) {
