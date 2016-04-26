@@ -41,12 +41,25 @@ implicit function :
         var fn = mixin[ name ];
 
         if (fn.isSMEvent) {
+
           if (!proto[ name ]) {
             proto[ name ] = eventWrapper();
           }
-          proto[ name ].push(fn);
+
+          if (proto[ name ].isSMEventWrapper) {
+            proto[ name ].push(fn);
+          } else {
+            throw 'Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"';
+          }
+
         } else {
-          proto[ name ] = fn;
+
+          if (!proto[ name ] || !proto[ name ].isSMEventWrapper) {
+            proto[ name ] = fn;
+          } else {
+            throw 'Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"';
+          }
+
         }
       });
     });
