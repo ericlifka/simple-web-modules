@@ -47,4 +47,29 @@ describe('SM Modules', function () {
     done();
   });
 
+  it('should support requiring down multiple levels', function (done) {
+    var called = false;
+    SM.DefineModule('level-3', function () {
+      called = true;
+      return 'level-3';
+    });
+
+    SM.DefineModule('level-2', function (r) {
+      return r('level-3') + ' level-2';
+    });
+
+    SM.DefineModule('level-1', function (r) {
+      return r('level-2') + ' level-1';
+    });
+
+    SM.DefineModule('main', function (r) {
+      r('level-1').should.equal('level-3 level-2 level-1');
+    });
+
+    SM.runMain();
+    called.should.equal(true);
+
+    done();
+  });
+
 });
