@@ -115,4 +115,14 @@ describe('SM Modules', function () {
     }).should.throw();
   });
 
+  it('should handle when a module does not exist', function () {
+    SM.DefineModule('main', function () {
+      require('module-a');
+    });
+
+    (function () {
+      SM.runMain();
+    }).should.throw();
+  });
+
 });
