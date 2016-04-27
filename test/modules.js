@@ -66,4 +66,29 @@ describe('SM Modules', function () {
     called.should.equal(true);
   });
 
+  it('should cache the module once it has been created', function () {
+    var runCount = 0;
+    SM.DefineModule('multi-require', function () {
+      runCount++;
+      return {
+        name: 'multi-require'
+      };
+    });
+
+    SM.DefineModule('main', function (r) {
+      runCount.should.equal(0);
+      var firstRun = r('multi-require');
+      runCount.should.equal(1);
+      firstRun.should.have.property('name', 'multi-require');
+      firstRun.name = 'modified';
+      var secondRun = r('multi-require');
+      runCount.should.equal(1);
+      secondRun.should.be.exactly(firstRun);
+      secondRun.should.have.property('name', 'modified');
+    });
+
+    SM.runMain();
+    runCount.should.be.greaterThan(0);
+  });
+
 });
