@@ -12,7 +12,7 @@ describe('SM Modules', function () {
     SM.should.have.property('DefineModule');
   });
 
-  it('should run a provided main module', function (done) {
+  it('should run a provided main module', function () {
     var called = false;
     SM.DefineModule('main', function () {
       called = true;
@@ -21,11 +21,9 @@ describe('SM Modules', function () {
     called.should.equal(false);
     SM.runMain();
     called.should.equal(true);
-
-    done();
   });
 
-  it('should provide require fn which provides access to other modules', function (done) {
+  it('should provide require fn which provides access to other modules', function () {
     var called = false;
     SM.DefineModule('test-a', function () {
       called = true;
@@ -43,11 +41,9 @@ describe('SM Modules', function () {
 
     SM.runMain();
     called.should.equal(true);
-
-    done();
   });
 
-  it('should support requiring down multiple levels', function (done) {
+  it('should support requiring down multiple levels', function () {
     var called = false;
     SM.DefineModule('level-3', function () {
       called = true;
@@ -68,8 +64,6 @@ describe('SM Modules', function () {
 
     SM.runMain();
     called.should.equal(true);
-
-    done();
   });
 
 });
