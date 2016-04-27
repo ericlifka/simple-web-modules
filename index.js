@@ -111,10 +111,21 @@ implicit function :
     require('main');
   }
 
-  if (document.readyState !== 'loading') {
-    window.setTimeout(runMain, 0);
+  if (typeof module !== 'undefined' && module.exports) {
+
+    /* Node.js context: provide module internals for testing */
+    module.exports = SM;
+    module.exports.runMain = runMain;
+
   } else {
-    document.addEventListener('DOMContentLoaded', runMain)
+
+    /* Browser context: tie into load to run main */
+    if (document.readyState !== 'loading') {
+      setTimeout(runMain, 0);
+    } else {
+      document.addEventListener('DOMContentLoaded', runMain);
+    }
+
   }
 
 }());
