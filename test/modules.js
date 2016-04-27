@@ -109,4 +109,10 @@ describe('SM Modules', function () {
     }).should.throw();
   });
 
+  it('should handle when no main is provided', function () {
+    (function () {
+      SM.runMain();
+    }).should.throw();
+  });
+
 });

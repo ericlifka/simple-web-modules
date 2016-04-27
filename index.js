@@ -108,12 +108,9 @@ implicit function :
   };
 
   function hardReset() {
-    if (evaluationStack.length > 0) {
-      throw "SM: cannot reset module system while module execution is still active";
-    }
-
     moduleDefinitions = {};
     evaluatedModules = {};
+    evaluationStack = [];
   }
 
   function runMain() {
