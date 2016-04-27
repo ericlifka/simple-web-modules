@@ -91,4 +91,22 @@ describe('SM Modules', function () {
     runCount.should.be.greaterThan(0);
   });
 
+  it('should not support circular dependencies', function () {
+    SM.DefineModule('circular-a', function (r) {
+      r('circular-b');
+    });
+
+    SM.DefineModule('circular-b', function (r) {
+      r('circular-a');
+    });
+
+    SM.DefineModule('main', function (r) {
+      r('circular-a');
+    });
+
+    (function () {
+      SM.runMain();
+    }).should.throw();
+  });
+
 });
