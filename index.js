@@ -107,6 +107,15 @@ implicit function :
     moduleDefinitions[ moduleName ] = moduleDefinition;
   };
 
+  function hardReset() {
+    if (evaluationStack.length > 0) {
+      throw "SM: cannot reset module system while module execution is still active";
+    }
+
+    moduleDefinitions = {};
+    evaluatedModules = {};
+  }
+
   function runMain() {
     require('main');
   }
@@ -116,6 +125,7 @@ implicit function :
     /* Node.js context: provide module internals for testing */
     module.exports = SM;
     module.exports.runMain = runMain;
+    module.exports.hardReset = hardReset;
 
   } else {
 

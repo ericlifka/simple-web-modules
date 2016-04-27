@@ -3,6 +3,10 @@ var SM = require('../index');
 
 describe('SM Modules', function () {
 
+  beforeEach(function() {
+    SM.hardReset();
+  });
+
   it('should exist', function () {
     should.exist(SM);
     SM.should.have.property('DefineModule');
