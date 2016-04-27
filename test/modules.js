@@ -1,7 +1,9 @@
 var should = require('should');
+var SM = require('../index');
 
-describe('test', function () {
-  it('thing', function () {
-    (5).should.be.exactly(5).and.be.a.Number;
+describe('SM Modules', function () {
+  it('should exist', function () {
+    should.exist(SM);
+    SM.should.have.property('DefineModule');
   });
 });
