@@ -18,4 +18,11 @@ describe('SM Classes', function () {
       fn.should.have.property('isSMEvent');
     });
   });
+
+  describe('SM.DefineClass', function () {
+    it('should return a constructor function', function () {
+      var cl = SM.DefineClass();
+      (typeof cl).should.equal("function");
+    });
+  });
 });
