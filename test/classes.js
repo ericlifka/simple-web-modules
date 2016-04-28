@@ -36,6 +36,27 @@ describe('SM Classes', function () {
       obj.should.have.property('propB');
       obj.should.not.have.ownProperty('propA');
       obj.should.not.have.ownProperty('propB');
-    })
+    });
+
+    it('should support multiple objects', function () {
+      var cl = SM.DefineClass([
+        { propA: 1 },
+        { propB: 2 }
+      ]);
+      var obj = new cl();
+
+      obj.should.have.property('propA', 1);
+      obj.should.have.property('propB', 2);
+    });
+
+    it('should overwrite properties with last first wins', function () {
+      var cl = SM.DefineClass([
+        { propA: 1 },
+        { propA: 2 }
+      ]);
+      var obj = new cl();
+
+      obj.should.have.property('propA', 2);
+    });
   });
 });
