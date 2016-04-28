@@ -24,5 +24,18 @@ describe('SM Classes', function () {
       var cl = SM.DefineClass();
       (typeof cl).should.equal("function");
     });
+
+    it('should expose properties on instances', function () {
+      var cl = SM.DefineClass([{
+        propA: 1,
+        propB: function () {}
+      }]);
+      var obj = new cl();
+
+      obj.should.have.property('propA');
+      obj.should.have.property('propB');
+      obj.should.not.have.ownProperty('propA');
+      obj.should.not.have.ownProperty('propB');
+    })
   });
 });
