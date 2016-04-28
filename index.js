@@ -35,6 +35,8 @@ implicit function :
   };
 
   SM.DefineClass = function (mixins) {
+    mixins = mixins || [];
+
     function Constructor() {}
     Constructor.prototype = new BaseClass();
     var proto = Constructor.prototype;
