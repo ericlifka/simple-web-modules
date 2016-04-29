@@ -58,5 +58,17 @@ describe('SM Classes', function () {
 
       obj.should.have.property('propA', 2);
     });
+
+    it('should put events into an event container', function () {
+      var fn = function () { };
+      var cl = SM.DefineClass([{
+        eventA: SM.event(fn)
+      }]);
+      var obj = new cl();
+
+      obj.should.have.property('eventA');
+      obj.eventA.should.have.property('isSMEventWrapper');
+      obj.eventA[ 0 ].should.be.exactly(fn);
+    });
   });
 });
