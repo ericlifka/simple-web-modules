@@ -18,6 +18,22 @@ var myInstance = new MyClassConstructor();
 `myInstance` would now have all of the properties of the above objects:
 `test1, propM1, propA, propB, doAThing`
 
+### Modules
+Modules are a re-imagining of the common js system. They use the following syntax:
+```
+SM.DefineModule('module-a', function (require) {
+  return {
+    message: 'Hello World!'
+  };
+});
+
+SM.DefineModule('main', function (require) {
+  var moduleA = require('module-a');
+
+  console.log(moduleA.message);
+}); 
+```
+
 ## Development
 
 No build system as yet, Simple Modules is provided in index.js for simple inclusion from bower.
