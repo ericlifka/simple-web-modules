@@ -22,12 +22,12 @@ implicit function :
 (function () {
   function BaseClass() {}
 
-  function eventWrapper() {
-    var wrapper = [];
-    wrapper.isSMEventWrapper = true;
+  function EventWrapper() { }
+  EventWrapper.prototype = [];
+  EventWrapper.prototype.isSMEventWrapper = true;
+  EventWrapper.prototype.trigger = function () {
 
-    return wrapper;
-  }
+  };
 
   SM.event = function (fn) {
     fn.isSMEvent = true;
@@ -48,7 +48,7 @@ implicit function :
         if (fn.isSMEvent) {
 
           if (!proto[ name ]) {
-            proto[ name ] = eventWrapper();
+            proto[ name ] = new EventWrapper();
           }
 
           if (proto[ name ].isSMEventWrapper) {
