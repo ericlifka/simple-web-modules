@@ -21,6 +21,16 @@ implicit function :
 //--- CLASSES ---//
 (function () {
   function BaseClass() {}
+  BaseClass.prototype.trigger = function (eventName) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    var event = this[ eventName ];
+
+    if (event && event.isSMEventWrapper) {
+      event.trigger(args);
+    } else {
+      throw "Tried to call trigger on a non event property or function";
+    }
+  };
 
   function EventWrapper() { }
   EventWrapper.prototype = [];
