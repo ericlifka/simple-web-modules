@@ -26,7 +26,7 @@ implicit function :
     var event = this[ eventName ];
 
     if (event && event.isSMEventWrapper) {
-      event.trigger(args);
+      event.trigger(this, args);
     } else {
       throw "Tried to call trigger on a non event property or function";
     }
@@ -35,8 +35,10 @@ implicit function :
   function EventWrapper() { }
   EventWrapper.prototype = [];
   EventWrapper.prototype.isSMEventWrapper = true;
-  EventWrapper.prototype.trigger = function () {
-
+  EventWrapper.prototype.trigger = function (context, args) {
+    this.forEach(function (event) {
+      event.apply(context, args);
+    });
   };
 
   SM.event = function (fn) {
