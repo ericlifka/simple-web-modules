@@ -88,17 +88,30 @@ describe('SM Classes', function () {
   it('should trigger all events in the correct sequence', function () {
     var calledA = false;
     var calledB = false;
+    var calledC = false;
     var cl = SM.DefineClass([
       {
         myEvent: SM.event(function () {
-          calledB.should.equal(false); // This event should be first so assert that the other hasn't run yet.
+          // This should be called before the other two.
+          calledB.should.equal(false);
+          calledC.should.equal(false);
           calledA = true;
         })
       },
       {
         myEvent: SM.event(function () {
-          calledA.should.equal(true); // This event should be second so assert that the other has already run.
+          // This should be called after A but before C.
+          calledA.should.equal(true);
+          calledC.should.equal(false);
           calledB = true;
+        })
+      },
+      {
+        myEvent: SM.event(function () {
+          // Thhis should be called last.
+          calledA.should.equal(true);
+          calledB.should.equal(true);
+          calledC = true;
         })
       }
     ]);
@@ -107,5 +120,6 @@ describe('SM Classes', function () {
     obj.trigger('myEvent');
     calledA.should.equal(true);
     calledB.should.equal(true);
+    calledC.should.equal(true);
   });
 });
