@@ -71,4 +71,17 @@ describe('SM Classes', function () {
       obj.eventA[ 0 ].should.be.exactly(fn);
     });
   });
+
+  it('should allow events to be triggered by name', function () {
+    var called = false;
+    var cl = SM.DefineClass({
+      myEvent: SM.event(function () {
+        called = true;
+      })
+    });
+    var obj = new cl();
+
+    obj.trigger('myEvent');
+    called.should.equal(true);
+  });
 });
