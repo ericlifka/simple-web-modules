@@ -122,4 +122,32 @@ describe('SM Classes', function () {
     calledB.should.equal(true);
     calledC.should.equal(true);
   });
+
+  it('should pass any supplied arguments to every event in the chain', function () {
+    var calledA = false;
+    var calledB = false;
+    var cl = SM.DefineClass([
+      {
+        myEvent: SM.event(function (a, b, c) {
+          calledA = true;
+          a.should.equal(1);
+          b.should.equal(2);
+          c.should.equal(3);
+        })
+      },
+      {
+        myEvent: SM.event(function (a, b, c) {
+          calledB = true;
+          a.should.equal(1);
+          b.should.equal(2);
+          c.should.equal(3);
+        })
+      }
+    ]);
+    var obj = new cl();
+
+    obj.trigger('myEvent', 1, 2, 3);
+    calledA.should.equal(true);
+    calledB.should.equal(true);
+  });
 });
