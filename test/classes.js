@@ -74,11 +74,11 @@ describe('SM Classes', function () {
 
   it('should allow events to be triggered by name', function () {
     var called = false;
-    var cl = SM.DefineClass({
+    var cl = SM.DefineClass([{
       myEvent: SM.event(function () {
         called = true;
       })
-    });
+    }]);
     var obj = new cl();
 
     obj.trigger('myEvent');
