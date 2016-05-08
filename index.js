@@ -28,7 +28,7 @@ implicit function :
     if (event && event.isSMEventWrapper) {
       event.trigger(this, args);
     } else {
-      throw "Tried to call trigger on a non event property or function";
+      throw new Error("Tried to call trigger on a non event property or function");
     }
   };
 
@@ -72,7 +72,7 @@ implicit function :
           if (proto[ name ].isSMEventWrapper) {
             proto[ name ].push(fn);
           } else {
-            throw 'Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"';
+            throw new Error('Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"');
           }
 
         } else {
@@ -80,7 +80,7 @@ implicit function :
           if (!proto[ name ] || !proto[ name ].isSMEventWrapper) {
             proto[ name ] = fn;
           } else {
-            throw 'Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"';
+            throw new Error('Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"');
           }
 
         }
