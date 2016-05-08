@@ -150,4 +150,37 @@ describe('SM Classes', function () {
     calledA.should.equal(true);
     calledB.should.equal(true);
   });
+
+  it('should call the constructor function when instantiating an instance', function () {
+    var called = false;
+    var cl = SM.DefineClass([{
+      constructor: function (arg1, arg2) {
+        called = true;
+        arg1.should.equal("test1");
+        arg2.should.equal(2);
+      }
+    }]);
+
+    var obj = new cl("test1", 2);
+    called.should.equal(true);
+  });
+
+  it('should trigger an init event after the constructor', function () {
+    var calledConstructor = false;
+    var calledEvent = false;
+    var cl = SM.DefineClass([{
+      constructor: function (arg1, arg2) {
+        calledEvent.should.equal(false);
+        calledConstructor = true;
+      },
+      init: SM.event(function () {
+        calledConstructor.should.equal(true);
+        calledEvent = true;
+      })
+    }]);
+
+    var obj = new cl("test1", 2);
+    calledConstructor.should.equal(true);
+    calledEvent.should.equal(true);
+  });
 });
