@@ -25,10 +25,14 @@ implicit function :
     var args = Array.prototype.slice.call(arguments, 1);
     var event = this[ eventName ];
 
-    if (event && event.isSMEventWrapper) {
-      event.trigger(this, args);
+    if (event) {
+      if (event.isSMEventWrapper) {
+        event.trigger(this, args);
+      } else {
+        throw new Error("Tried to call trigger on a non event property or function");
+      }
     } else {
-      throw new Error("Tried to call trigger on a non event property or function");
+      console.warn("SM.event: no event found for '" + eventName + "'");
     }
   };
 
