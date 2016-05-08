@@ -31,8 +31,6 @@ implicit function :
       } else {
         throw new Error("Tried to call trigger on a non event property or function");
       }
-    } else {
-      console.warn("SM.event: no event found for '" + eventName + "'");
     }
   };
 
