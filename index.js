@@ -20,13 +20,7 @@ implicit function :
 
 //--- CLASSES ---//
 (function () {
-  function BaseClass() {
-    if (typeof this.constructor === "function") {
-      this.constructor.apply(this, arguments);
-    }
-
-    this.trigger('init');
-  }
+  function BaseClass() { }
   BaseClass.prototype.trigger = function (eventName) {
     var args = Array.prototype.slice.call(arguments, 1);
     var event = this[ eventName ];
@@ -55,7 +49,13 @@ implicit function :
   SM.DefineClass = function (mixins) {
     mixins = mixins || [];
 
-    function Constructor() {}
+    function Constructor() {
+      if (typeof this.constructor === "function") {
+        this.constructor.apply(this, arguments);
+      }
+
+      this.trigger('init');
+    }
     Constructor.prototype = new BaseClass();
     var proto = Constructor.prototype;
 
