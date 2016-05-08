@@ -20,7 +20,13 @@ implicit function :
 
 //--- CLASSES ---//
 (function () {
-  function BaseClass() {}
+  function BaseClass() {
+    if (typeof this.constructor === "function") {
+      this.constructor.apply(this, arguments);
+    }
+
+    this.trigger('init');
+  }
   BaseClass.prototype.trigger = function (eventName) {
     var args = Array.prototype.slice.call(arguments, 1);
     var event = this[ eventName ];
