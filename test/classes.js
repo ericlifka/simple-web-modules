@@ -182,5 +182,29 @@ describe('SM Classes', function () {
       calledConstructor.should.equal(true);
       calledEvent.should.equal(true);
     });
+
+    it('should detect when Constructors are passed as mixins and use them succesfully', function () {
+      var called1 = false;
+      var c1 = SM.DefineClass([{
+        fn1: function () {
+          called1 = true;
+        }
+      }]);
+
+      var called2 = false;
+      var c2 = SM.DefineClass([c1, {
+        fn2: function () {
+          called2 = true;
+          this.fn1();
+        }
+      }]);
+
+      var obj = new c2();
+      obj.fn1.should.be.type("function");
+      obj.fn2.should.be.type("function");
+      obj.fn2();
+      called1.should.equal(true);
+      called2.should.equal(true);
+    });
   });
 });
