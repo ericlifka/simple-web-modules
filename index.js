@@ -62,6 +62,10 @@ implicit function :
     var proto = Constructor.prototype;
 
     mixins.forEach(function (mixin) {
+      if (typeof mixin === "function" && mixin.prototype) {
+        mixin = mixin.prototype;
+      }
+
       Object.keys(mixin).forEach(function (name) {
         var fn = mixin[ name ];
 
