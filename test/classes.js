@@ -171,10 +171,14 @@ describe('SM Classes', function () {
         constructor: function (arg1, arg2) {
           calledEvent.should.equal(false);
           calledConstructor = true;
+          arg1.should.equal("test1");
+          arg2.should.equal(2);
         },
-        init: SM.event(function () {
+        init: SM.event(function (arg1, arg2) {
           calledConstructor.should.equal(true);
           calledEvent = true;
+          arg1.should.equal("test1");
+          arg2.should.equal(2);
         })
       }]);
 

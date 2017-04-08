@@ -56,7 +56,7 @@ implicit function :
         this.constructor.apply(this, arguments);
       }
 
-      this.trigger('init');
+      this.trigger('init', ...arguments);
     }
     Constructor.prototype = new BaseClass();
     var proto = Constructor.prototype;
