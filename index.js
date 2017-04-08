@@ -1,4 +1,4 @@
-var SM = { };
+const SM = { };
 
 /* new class style for v2:
 
@@ -21,9 +21,10 @@ implicit function :
 //--- CLASSES ---//
 (function () {
   function BaseClass() { }
+
   BaseClass.prototype.trigger = function (eventName) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    var event = this[ eventName ];
+    let args = Array.prototype.slice.call(arguments, 1);
+    let event = this[eventName];
 
     if (event) {
       if (event.isSMEventWrapper) {
@@ -35,6 +36,7 @@ implicit function :
   };
 
   function EventWrapper() { }
+
   EventWrapper.prototype = [];
   EventWrapper.prototype.isSMEventWrapper = true;
   EventWrapper.prototype.trigger = function (context, args) {
@@ -58,8 +60,9 @@ implicit function :
 
       this.trigger('init', ...arguments);
     }
+
     Constructor.prototype = new BaseClass();
-    var proto = Constructor.prototype;
+    let proto = Constructor.prototype;
 
     mixins.forEach(function (mixin) {
       if (typeof mixin === "function" && mixin.prototype) {
@@ -67,24 +70,35 @@ implicit function :
       }
 
       Object.keys(mixin).forEach(function (name) {
-        var fn = mixin[ name ];
+        let fn = mixin[name];
 
         if (fn.isSMEvent) {
 
-          if (!proto[ name ]) {
-            proto[ name ] = new EventWrapper();
+          if (!proto[name]) {
+            proto[name] = new EventWrapper();
           }
 
-          if (proto[ name ].isSMEventWrapper) {
-            proto[ name ].push(fn);
+          if (proto[name].isSMEventWrapper) {
+            proto[name].push(fn);
+          } else {
+            throw new Error('Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"');
+          }
+        } else if (fn.isSMEventWrapper) {
+
+          if (!proto[name]) {
+            proto[name] = new EventWrapper();
+          }
+
+          if (proto[name].isSMEventWrapper) {
+            fn.forEach(event => proto[name].push(event));
           } else {
             throw new Error('Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"');
           }
 
         } else {
 
-          if (!proto[ name ] || !proto[ name ].isSMEventWrapper) {
-            proto[ name ] = fn;
+          if (!proto[name] || !proto[name].isSMEventWrapper) {
+            proto[name] = fn;
           } else {
             throw new Error('Error Creating class: cannot mix SM events and regular functions on the same name key: "' + name + '"');
           }
@@ -99,24 +113,24 @@ implicit function :
 
 //--- MODULES ---//
 (function () {
-  var moduleDefinitions = {};
-  var evaluatedModules = {};
-  var evaluationStack = [];
+  let moduleDefinitions = {};
+  let evaluatedModules = {};
+  let evaluationStack = [];
 
   function require(moduleName) {
     if (evaluationStack.indexOf(moduleName) > -1) {
       throw "Circular dependencies not supported: " + moduleName + " required while still being evaluated";
     }
 
-    var module = evaluatedModules[ moduleName ];
+    let module = evaluatedModules[moduleName];
     if (module) {
       return module;
     }
 
-    var moduleDefinition = moduleDefinitions[ moduleName ];
+    let moduleDefinition = moduleDefinitions[moduleName];
     if (moduleDefinition) {
       evaluationStack.push(moduleName);
-      module = evaluatedModules[ moduleName ] = moduleDefinition(require);
+      module = evaluatedModules[moduleName] = moduleDefinition(require);
       evaluationStack.pop();
 
       return module;
@@ -126,11 +140,11 @@ implicit function :
   }
 
   SM.DefineModule = function (moduleName, moduleDefinition) {
-    if (moduleDefinitions[ moduleName ]) {
+    if (moduleDefinitions[moduleName]) {
       throw "Duplicate module definition: " + moduleName;
     }
 
-    moduleDefinitions[ moduleName ] = moduleDefinition;
+    moduleDefinitions[moduleName] = moduleDefinition;
   };
 
   function hardReset() {

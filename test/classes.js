@@ -210,5 +210,25 @@ describe('SM Classes', function () {
       called1.should.equal(true);
       called2.should.equal(true);
     });
+
+    it('should keep events of the same name across classes separate', function () {
+      var base = SM.DefineClass([{
+        init: SM.event(function () {
+
+        })
+      }]);
+
+      var c1 = SM.DefineClass([base, {
+        init: SM.event(function () {
+
+        })
+      }]);
+
+      var c2 = SM.DefineClass([base, {
+      }]);
+
+      c1.prototype.init.length.should.equal(2);
+      c2.prototype.init.length.should.equal(1);
+    });
   });
 });
